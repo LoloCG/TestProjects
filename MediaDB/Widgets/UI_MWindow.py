@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'MainWindowFcKvDp.ui'
+## Form generated from reading UI file 'MainWindowronrUm.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.2
 ##
@@ -16,16 +16,15 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
-    QLabel, QLineEdit, QMainWindow, QMenu,
-    QMenuBar, QPushButton, QSizePolicy, QTableView,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
+    QLineEdit, QMainWindow, QMenu, QMenuBar,
+    QPushButton, QSizePolicy, QVBoxLayout, QWidget)
 
 class Ui_MainAppWindow(object):
     def setupUi(self, MainAppWindow):
         if not MainAppWindow.objectName():
             MainAppWindow.setObjectName(u"MainAppWindow")
-        MainAppWindow.resize(512, 297)
+        MainAppWindow.resize(508, 354)
         self.actionMusic = QAction(MainAppWindow)
         self.actionMusic.setObjectName(u"actionMusic")
         self.actionMovie = QAction(MainAppWindow)
@@ -63,13 +62,19 @@ class Ui_MainAppWindow(object):
 
         self.verticalLayout.addWidget(self.label)
 
-        self.MainTable = QTableView(self.CentralWidget)
-        self.MainTable.setObjectName(u"MainTable")
-        self.MainTable.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
-        self.MainTable.setAutoFillBackground(False)
-        self.MainTable.setShowGrid(False)
+        self.MainWindowPlaceholder = QWidget(self.CentralWidget)
+        self.MainWindowPlaceholder.setObjectName(u"MainWindowPlaceholder")
+        self.MainWindowPlaceholder.setEnabled(True)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.MainWindowPlaceholder.sizePolicy().hasHeightForWidth())
+        self.MainWindowPlaceholder.setSizePolicy(sizePolicy)
+        self.MainWindowPlaceholder.setMinimumSize(QSize(0, 0))
+        self.MainWindowPlaceholder.setSizeIncrement(QSize(3, 3))
+        self.MainWindowPlaceholder.setBaseSize(QSize(2, 2))
 
-        self.verticalLayout.addWidget(self.MainTable)
+        self.verticalLayout.addWidget(self.MainWindowPlaceholder)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -104,7 +109,7 @@ class Ui_MainAppWindow(object):
         MainAppWindow.setCentralWidget(self.CentralWidget)
         self.menuBar = QMenuBar(MainAppWindow)
         self.menuBar.setObjectName(u"menuBar")
-        self.menuBar.setGeometry(QRect(0, 0, 512, 22))
+        self.menuBar.setGeometry(QRect(0, 0, 508, 22))
         self.menuSettings = QMenu(self.menuBar)
         self.menuSettings.setObjectName(u"menuSettings")
         self.menuTheme = QMenu(self.menuSettings)
