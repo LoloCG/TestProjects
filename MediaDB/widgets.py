@@ -3,7 +3,6 @@ from PySide6.QtWidgets import QWidget, QMainWindow
 from Widgets.UI_MWindow import Ui_MainAppWindow
 from Widgets.UI_VideoQuery import Ui_VideoForm
 from Widgets.UI_AboutWindow import Ui_AboutDialog
-from MainTableWidget import Ui_MainTableWidget
 
 class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required instead of QWidget, as setCentralWidget is part of the first one.
     def __init__(self):
@@ -14,14 +13,20 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         self.actionMovie.triggered.connect(self.ShowVideoQuery)
         self.actionAbout.triggered.connect(self.ShowAboutDialog)
 
+        '''
         data = [
             ["Test1a", "test1b", "test1c"],
             ["Test2a", "test2b", "test2c"],
             ["Test3a", "test3b", "test3c"],
         ]
         
-        self.main_table_widget = Ui_MainTableWidget()
-        #self.verticalLayout.replaceWidget(self.main_table_placeholder, self.main_table_widget) # replaces the placeholder with the table
+        self.main_table_widget = MainTableWidget(data, self)
+        
+        # Replace the placeholder widget with the actual table widget
+        self.verticalLayout.replaceWidget(self.MainWindowPlaceholder, self.main_table_widget)
+        self.main_table_widget.show()
+        '''
+
 
     def ShowVideoQuery(self):
         print("showing video query")

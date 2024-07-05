@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'MainWindowronrUm.ui'
+## Form generated from reading UI file 'MainWindowYPeqOX.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.2
 ##
@@ -16,9 +16,10 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QLineEdit, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QSizePolicy, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
+    QLabel, QLineEdit, QMainWindow, QMenu,
+    QMenuBar, QPushButton, QSizePolicy, QTableWidget,
+    QTableWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainAppWindow(object):
     def setupUi(self, MainAppWindow):
@@ -62,19 +63,11 @@ class Ui_MainAppWindow(object):
 
         self.verticalLayout.addWidget(self.label)
 
-        self.MainWindowPlaceholder = QWidget(self.CentralWidget)
-        self.MainWindowPlaceholder.setObjectName(u"MainWindowPlaceholder")
-        self.MainWindowPlaceholder.setEnabled(True)
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.MainWindowPlaceholder.sizePolicy().hasHeightForWidth())
-        self.MainWindowPlaceholder.setSizePolicy(sizePolicy)
-        self.MainWindowPlaceholder.setMinimumSize(QSize(0, 0))
-        self.MainWindowPlaceholder.setSizeIncrement(QSize(3, 3))
-        self.MainWindowPlaceholder.setBaseSize(QSize(2, 2))
+        self.MainTableWidget = QTableWidget(self.CentralWidget)
+        self.MainTableWidget.setObjectName(u"MainTableWidget")
+        self.MainTableWidget.setShowGrid(False)
 
-        self.verticalLayout.addWidget(self.MainWindowPlaceholder)
+        self.verticalLayout.addWidget(self.MainTableWidget)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
