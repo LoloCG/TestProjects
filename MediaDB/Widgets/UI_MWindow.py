@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'MainWindowpgXivQ.ui'
+## Form generated from reading UI file 'MainWindowHELKqy.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.2
 ##
@@ -27,10 +27,10 @@ class Ui_MainAppWindow(object):
         if not MainAppWindow.objectName():
             MainAppWindow.setObjectName(u"MainAppWindow")
         MainAppWindow.resize(508, 354)
-        self.actionMusic = QAction(MainAppWindow)
-        self.actionMusic.setObjectName(u"actionMusic")
-        self.actionMovie = QAction(MainAppWindow)
-        self.actionMovie.setObjectName(u"actionMovie")
+        self.MusicQueryMenuButton = QAction(MainAppWindow)
+        self.MusicQueryMenuButton.setObjectName(u"MusicQueryMenuButton")
+        self.VideoQueryMenuButton = QAction(MainAppWindow)
+        self.VideoQueryMenuButton.setObjectName(u"VideoQueryMenuButton")
         self.actionSeries = QAction(MainAppWindow)
         self.actionSeries.setObjectName(u"actionSeries")
         self.actionDark_Theme = QAction(MainAppWindow)
@@ -39,30 +39,30 @@ class Ui_MainAppWindow(object):
         self.actionLight_Theme = QAction(MainAppWindow)
         self.actionLight_Theme.setObjectName(u"actionLight_Theme")
         self.actionLight_Theme.setCheckable(True)
-        self.actionAbout = QAction(MainAppWindow)
-        self.actionAbout.setObjectName(u"actionAbout")
-        self.actionAbout.setCheckable(False)
-        self.actionAbout.setMenuRole(QAction.MenuRole.TextHeuristicRole)
+        self.AboutMenuButton = QAction(MainAppWindow)
+        self.AboutMenuButton.setObjectName(u"AboutMenuButton")
+        self.AboutMenuButton.setCheckable(False)
+        self.AboutMenuButton.setMenuRole(QAction.MenuRole.TextHeuristicRole)
         self.CentralWidget = QWidget(MainAppWindow)
         self.CentralWidget.setObjectName(u"CentralWidget")
         self.verticalLayout = QVBoxLayout(self.CentralWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.label = QLabel(self.CentralWidget)
-        self.label.setObjectName(u"label")
+        self.MainWindowLabel = QLabel(self.CentralWidget)
+        self.MainWindowLabel.setObjectName(u"MainWindowLabel")
         font = QFont()
         font.setFamilies([u"Bahnschrift SemiBold"])
         font.setPointSize(16)
         font.setBold(True)
         font.setKerning(True)
         font.setStyleStrategy(QFont.PreferDefault)
-        self.label.setFont(font)
-        self.label.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
-        self.label.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-        self.label.setFrameShape(QFrame.Shape.NoFrame)
-        self.label.setFrameShadow(QFrame.Shadow.Plain)
-        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.MainWindowLabel.setFont(font)
+        self.MainWindowLabel.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.MainWindowLabel.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+        self.MainWindowLabel.setFrameShape(QFrame.Shape.NoFrame)
+        self.MainWindowLabel.setFrameShadow(QFrame.Shadow.Plain)
+        self.MainWindowLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.verticalLayout.addWidget(self.label)
+        self.verticalLayout.addWidget(self.MainWindowLabel)
 
         self.MainTableWidget = QTableWidget(self.CentralWidget)
         self.MainTableWidget.setObjectName(u"MainTableWidget")
@@ -83,15 +83,15 @@ class Ui_MainAppWindow(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.MainW_Button1 = QPushButton(self.CentralWidget)
-        self.MainW_Button1.setObjectName(u"MainW_Button1")
-
-        self.horizontalLayout.addWidget(self.MainW_Button1)
-
         self.MainW_Button2 = QPushButton(self.CentralWidget)
         self.MainW_Button2.setObjectName(u"MainW_Button2")
 
         self.horizontalLayout.addWidget(self.MainW_Button2)
+
+        self.PrintSelectedButton = QPushButton(self.CentralWidget)
+        self.PrintSelectedButton.setObjectName(u"PrintSelectedButton")
+
+        self.horizontalLayout.addWidget(self.PrintSelectedButton)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -125,12 +125,12 @@ class Ui_MainAppWindow(object):
 
         self.menuBar.addAction(self.menuAdd_new.menuAction())
         self.menuBar.addAction(self.menuSettings.menuAction())
-        self.menuSettings.addAction(self.actionAbout)
+        self.menuSettings.addAction(self.AboutMenuButton)
         self.menuSettings.addAction(self.menuTheme.menuAction())
         self.menuTheme.addAction(self.actionDark_Theme)
         self.menuTheme.addAction(self.actionLight_Theme)
-        self.menuAdd_new.addAction(self.actionMusic)
-        self.menuAdd_new.addAction(self.actionMovie)
+        self.menuAdd_new.addAction(self.MusicQueryMenuButton)
+        self.menuAdd_new.addAction(self.VideoQueryMenuButton)
 
         self.retranslateUi(MainAppWindow)
 
@@ -139,15 +139,15 @@ class Ui_MainAppWindow(object):
 
     def retranslateUi(self, MainAppWindow):
         MainAppWindow.setWindowTitle(QCoreApplication.translate("MainAppWindow", u"MainWindow", None))
-        self.actionMusic.setText(QCoreApplication.translate("MainAppWindow", u"Music", None))
-        self.actionMovie.setText(QCoreApplication.translate("MainAppWindow", u"Film/Series", None))
+        self.MusicQueryMenuButton.setText(QCoreApplication.translate("MainAppWindow", u"Music", None))
+        self.VideoQueryMenuButton.setText(QCoreApplication.translate("MainAppWindow", u"Film/Series", None))
         self.actionSeries.setText(QCoreApplication.translate("MainAppWindow", u"Series", None))
         self.actionDark_Theme.setText(QCoreApplication.translate("MainAppWindow", u"Dark Theme", None))
         self.actionLight_Theme.setText(QCoreApplication.translate("MainAppWindow", u"Light Theme", None))
-        self.actionAbout.setText(QCoreApplication.translate("MainAppWindow", u"About", None))
-        self.label.setText(QCoreApplication.translate("MainAppWindow", u"All Saved Media", None))
-        self.MainW_Button1.setText(QCoreApplication.translate("MainAppWindow", u"Button1", None))
-        self.MainW_Button2.setText(QCoreApplication.translate("MainAppWindow", u"Button2", None))
+        self.AboutMenuButton.setText(QCoreApplication.translate("MainAppWindow", u"About", None))
+        self.MainWindowLabel.setText(QCoreApplication.translate("MainAppWindow", u"All Saved Media", None))
+        self.MainW_Button2.setText(QCoreApplication.translate("MainAppWindow", u"...", None))
+        self.PrintSelectedButton.setText(QCoreApplication.translate("MainAppWindow", u"Print Selected", None))
         self.SearchButton.setText(QCoreApplication.translate("MainAppWindow", u"Search", None))
         self.menuSettings.setTitle(QCoreApplication.translate("MainAppWindow", u"Settings", None))
         self.menuTheme.setTitle(QCoreApplication.translate("MainAppWindow", u"Theme", None))

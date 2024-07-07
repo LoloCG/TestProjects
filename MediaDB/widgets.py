@@ -13,19 +13,40 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         self.setupUi(self)
         self.setWindowTitle("Media Database")
 
-        self.actionMovie.triggered.connect(self.ShowVideoQuery)
-        self.actionAbout.triggered.connect(self.ShowAboutDialog)
-        
-        # this is the data that will be displayed in the table
-        DBdata = get_data()
-        
-        # calls the function introducing the testdata
-        #self.populate_table(DBdata)
+        self.VideoQueryMenuButton.triggered.connect(self.ShowVideoQuery)
+        self.AboutMenuButton.triggered.connect(self.ShowAboutDialog)
+        self.SearchButton.clicked.connect(self.searchfunct)
+        self.PrintSelectedButton.clicked.connect(self.InfoSelectedItem)
 
-        # calls the function introducing the testdata
+        
+        DBdata = get_data() # obtains the data that will be displayed in the table
+
+        # calls the function introducing the data to the database.
+            # function uses two variables. The object and the data that will be used.
         populate_table(self.MainTableWidget, DBdata)
 
+    # function to find in db from MWindows
+    def searchfunct(self):
+        search_text = self.SearchLineEdit.text()
+        print("Searching for:",search_text, "in db") 
+    
+    # function to print info of the selected item in the db
+    def InfoSelectedItem(self):
+        selected_items = self.MainTableWidget.selectedItems()
+        if not selected_items:
+            print("No item selected")
+            return
+    
+        row = selected_items[0].row()
+        row_data = []
+        for column in range(self.MainTableWidget.columnCount()):
+            item = self.MainTableWidget.item(row, column)
+            row_data.append(item.text() if item else "")
+    
+        print("Info of selected film: ")
+        print(f"Name: {row_data[0]}, Type: {row_data[1]}, Recommended by: {row_data[2]}, Tags: {row_data[3]}")
 
+    # Functions to show different windows
     def ShowVideoQuery(self):
         print("showing video query")
         self.video_query_window = VideoQuery()
