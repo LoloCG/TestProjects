@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'MainWindowYPeqOX.ui'
+## Form generated from reading UI file 'MainWindowpgXivQ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.2
 ##
@@ -16,10 +16,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
-    QLabel, QLineEdit, QMainWindow, QMenu,
-    QMenuBar, QPushButton, QSizePolicy, QTableWidget,
-    QTableWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplication, QFrame,
+    QHBoxLayout, QHeaderView, QLabel, QLineEdit,
+    QMainWindow, QMenu, QMenuBar, QPushButton,
+    QSizePolicy, QTableWidget, QTableWidgetItem, QVBoxLayout,
+    QWidget)
 
 class Ui_MainAppWindow(object):
     def setupUi(self, MainAppWindow):
@@ -65,7 +66,18 @@ class Ui_MainAppWindow(object):
 
         self.MainTableWidget = QTableWidget(self.CentralWidget)
         self.MainTableWidget.setObjectName(u"MainTableWidget")
+        self.MainTableWidget.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.MainTableWidget.setFrameShadow(QFrame.Shadow.Sunken)
+        self.MainTableWidget.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContentsOnFirstShow)
+        self.MainTableWidget.setAlternatingRowColors(True)
+        self.MainTableWidget.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.MainTableWidget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.MainTableWidget.setTextElideMode(Qt.TextElideMode.ElideMiddle)
         self.MainTableWidget.setShowGrid(False)
+        self.MainTableWidget.setSortingEnabled(True)
+        self.MainTableWidget.horizontalHeader().setStretchLastSection(False)
+        self.MainTableWidget.verticalHeader().setVisible(True)
+        self.MainTableWidget.verticalHeader().setStretchLastSection(False)
 
         self.verticalLayout.addWidget(self.MainTableWidget)
 
