@@ -1,8 +1,9 @@
 import sys
+print("Running app")
 from PySide6 import QtWidgets
 from widgets import MainWindow
 
-print("Running app")
+
 app = QtWidgets.QApplication(sys.argv)
 
 window = MainWindow()

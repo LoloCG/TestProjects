@@ -3,46 +3,39 @@ from PySide6.QtCore import Qt
 import sqlite3
 import os
 
-base_dir = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(base_dir, 'media_database.db')
+# Stores the supposed path for the database, which is the root directory of the script + the name of db
+db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media_database.db')
 
 def setup_database():
-    print("Setting up database")
+    if not os.path.exists(db_path):
+        print("Database not found, creating database at: ", db_path)
+        
+        # Connect to the database (this will create the file if it doesn't exist)
+        connection = sqlite3.connect(db_path)
+        cursor = connection.cursor()
 
-    connection = sqlite3.connect(db_path)
-    cursor = connection.cursor()
-    
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS media (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        type TEXT NOT NULL,
-        recommended_by TEXT,
-        tags TEXT
-    )
-    ''')
-    
-    # Optionally, insert initial data if the table is empty
-    cursor.execute('SELECT COUNT(*) FROM media')
-    if cursor.fetchone()[0] == 0:
-        initial_data = [
-            ("La teta asustada/The Milk of Sorrow", "Film", "John Doe", "Drama"),
-            ("Song Without a Name/Canción sin nombre", "Film", "Jane Smith", "Drama"),
-            ("Magallanes", "Film", "Robert Brown", "Drama"),
-            ("The City and the Dogs", "Film", "Emily White", "Drama"),
-        ]
-        cursor.executemany('''
-        INSERT INTO media (name, type, recommended_by, tags) VALUES (?, ?, ?, ?)
-        ''', initial_data)
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS media (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            type TEXT NOT NULL,
+            recommended_by TEXT,
+            tags TEXT
+        )
+        ''')
 
-    connection.commit()
-    connection.close()
-    print("DB created at: ", db_path)
+        connection.commit()
+        connection.close()
+
+        print("DB created at: ", db_path)
+        
+    else:
+        print("Database found at: ", db_path)
 
 def get_data():
     
-    print("obtaining data")
-    
+    print("Obtaining items from DB")
+
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
     
@@ -50,17 +43,16 @@ def get_data():
     data = cursor.fetchall()
     
     connection.close()
-    return data
 
-    '''
-    return [
-        ["La teta asustada/The Milk of Sorrow", "Film"],
-        ["Song Without a Name/Canción sin nombre", "Film"],
-        ["Magallanes", "Film"],
-        ["The City and the Dogs", "Film"],
-    ]
-    '''
 def populate_table(table_widget, data):
+
+    if not data:
+        print("No data to display.")
+        table_widget.setRowCount(0)
+        table_widget.setColumnCount(4)
+        table_widget.setHorizontalHeaderLabels(["Name", "Type", "Recommended by", "Tags"])
+        return
+
     print("populating table with ", len(data), " rows and ", len(data[0]), "columns")
     table_widget.setRowCount(len(data))
     table_widget.setColumnCount(len(data[0]))
@@ -81,3 +73,21 @@ def populate_table(table_widget, data):
 
 # Run setup_database when the module is first imported
 setup_database()
+
+
+# Unused code
+
+''' Was used to check if the database table was created correctly.
+# Check if the table was created or already exists
+cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='media'")
+if cursor.fetchone() is None:
+    print("Error: Table 'media' was not created.")
+else:
+    print("Table 'media' is ready.")
+'''
+''' used in get_data function, used to return an empty list. Doesnt seem to be necessary
+    if not data:
+        print("No items found in the database.")
+        return []
+    return data
+'''

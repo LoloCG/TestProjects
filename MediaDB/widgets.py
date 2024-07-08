@@ -18,14 +18,18 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         self.SearchButton.clicked.connect(self.searchfunct)
         self.PrintSelectedButton.clicked.connect(self.InfoSelectedItem)
 
-        
-        DBdata = get_data() # obtains the data that will be displayed in the table
-
+        try:
+            DBdata = get_data() # obtains the data that will be displayed in the table
+        except Exception as e:
+            print(f"Error obtaining data: {e}") #This line prints an error message to the console. The message includes the string "Error obtaining data: " followed by the exception message stored in e.
+            DBdata = [] # sets DBdata to an empty list. This ensures that the variable DBdata is always defined, even if an error occurs, and allows the rest of the program to handle the situation where no data is available gracefully.
+    
         # calls the function introducing the data to the database.
             # function uses two variables. The object and the data that will be used.
         populate_table(self.MainTableWidget, DBdata)
 
     # function to find in db from MWindows
+        # not finished yet. Does nothing at the moment.
     def searchfunct(self):
         search_text = self.SearchLineEdit.text()
         print("Searching for:",search_text, "in db") 
@@ -60,12 +64,30 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         self.Show_About_Dialog.raise_()
 
 class VideoQuery(QWidget, Ui_VideoForm):
-       def __init__(self):
+    def __init__(self):
         super().__init__()
         self.setupUi(self) 
-        #self.setWindowTitle("Video Query"
+        #self.setWindowTitle("Video Query")
         self.CancelButton.clicked.connect(self.close)
 
+        self.SubmitButton.clicked.connect(self.Submit_Item)
+
+    def Submit_Item(self):
+        name = self.Name_LineEdit.text()
+        media_type = self.Type_ComboBox.currentText()
+        recommendation = self.Recommendation_LineEdit.text()
+        tags = self.Tags_LineEdit.text()
+
+        print("Name:", name)
+        print("Type:", media_type)
+        print("Recommended by:", recommendation)
+        print("Tags:", tags)
+
+        # Clear the input fields after submission
+        self.Name_LineEdit.clear()
+        self.Type_ComboBox.setCurrentIndex(0)  # Resets to the first item
+        self.Recommendation_LineEdit.clear()
+        self.Tags_LineEdit.clear()
 
 class AboutDialog(QWidget, Ui_AboutDialog):
     def __init__(self):
