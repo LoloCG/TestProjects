@@ -27,22 +27,30 @@ def setup_database():
         connection.commit()
         connection.close()
 
-        print("DB created at: ", db_path)
+        print("DB created")
         
     else:
         print("Database found at: ", db_path)
 
 def get_data():
-    
-    print("Obtaining items from DB")
-
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
     
     cursor.execute('SELECT name, type, recommended_by, tags FROM media')
     data = cursor.fetchall()
+    connection.close()
+    return data
+
+def get_media_types():
+    connection = sqlite3.connect(db_path)
+    cursor = connection.cursor()
+    
+    cursor.execute('SELECT DISTINCT type FROM media')
+    types = cursor.fetchall()
     
     connection.close()
+    
+    return [type_[0] for type_ in types]  # Extract types from tuples
 
 def populate_table(table_widget, data):
 
@@ -70,6 +78,22 @@ def populate_table(table_widget, data):
             item = QTableWidgetItem(cell_data)
             item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the item text
             table_widget.setItem(row_index, col_index, item)
+
+def insert_data(item_info):
+
+    print("inserting data:",item_info)
+
+    connection = sqlite3.connect(db_path)
+    cursor = connection.cursor()
+    
+    cursor.execute('''
+    INSERT INTO media (name, type, recommended_by, tags) 
+    VALUES (?, ?, ?, ?)
+    ''', item_info)
+
+    connection.commit()
+    connection.close()
+    #???
 
 # Run setup_database when the module is first imported
 setup_database()
