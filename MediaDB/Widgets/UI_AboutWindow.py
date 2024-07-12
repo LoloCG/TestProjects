@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'AboutWindowlcTOTa.ui'
+## Form generated from reading UI file 'AboutWindowUMkoyx.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.2
 ##
@@ -64,5 +64,8 @@ class Ui_AboutDialog(object):
         self.AboutLabel.setText(QCoreApplication.translate("AboutDialog", u"<html><head/><body><h1 style=\" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:xx-large; font-weight:700;\">About the App</span></h1><p>Media Database is a learning project application designed to help organize the media that you plan to watch/listen in the future, organizing it by different criteria that can be searched later. </p><p>A key aspect is the ability to recommend you what to watch based on the criteria that you are interested in that moment, so you dont have to spend countless hours deciding. </p><h2 style=\" margin-top:16px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:x-large; font-weight:700;\">License</span></h2><p>This application is licensed under the GNU Lesser General Public License (LGPL). For more information, please visit the <a href=\"https://www.gnu.org/licenses/lgpl-3.0.html\"><span style=\" text-decoration: underline; color"
                         ":#0078d7;\">LGPL License Page</span></a>.</p></body></html>", None))
         self.AboutAcceptButton.setText(QCoreApplication.translate("AboutDialog", u"Accept", None))
+#if QT_CONFIG(shortcut)
+        self.AboutAcceptButton.setShortcut(QCoreApplication.translate("AboutDialog", u"Esc", None))
+#endif // QT_CONFIG(shortcut)
     # retranslateUi
 

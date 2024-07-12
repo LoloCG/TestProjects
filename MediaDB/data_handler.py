@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QTableWidgetItem, QHeaderView
+#from PySide6.QtWidgets import QTableWidgetItem, QHeaderView
 from PySide6.QtCore import Qt
 import sqlite3
 import os
@@ -6,7 +6,7 @@ import os
 # Stores the supposed path for the database, which is the root directory of the script + the name of db
 db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media_database.db')
 
-def setup_database():
+def setup_database(): # Creates database if it doesnt exist
     if not os.path.exists(db_path):
         print("Database not found, creating database at: ", db_path)
         
@@ -32,16 +32,18 @@ def setup_database():
     else:
         print("Database found at: ", db_path)
 
-def get_data():
+def get_data(): # Obtains all the data from the database
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
     
-    cursor.execute('SELECT name, type, recommended_by, tags FROM media')
+    cursor.execute('SELECT id, name, type, recommended_by, tags FROM media')
+
     data = cursor.fetchall()
     connection.close()
+
     return data
 
-def get_media_types():
+def get_media_types(): # Obtains existing "types" from the database, to be used in type combobox in query
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
     
@@ -49,37 +51,9 @@ def get_media_types():
     types = cursor.fetchall()
     
     connection.close()
-    
     return [type_[0] for type_ in types]  # Extract types from tuples
 
-def populate_table(table_widget, data):
-
-    if not data:
-        print("No data to display.")
-        table_widget.setRowCount(0)
-        table_widget.setColumnCount(4)
-        table_widget.setHorizontalHeaderLabels(["Name", "Type", "Recommended by", "Tags"])
-        return
-
-    print("populating table with ", len(data), " rows and ", len(data[0]), "columns")
-    table_widget.setRowCount(len(data))
-    table_widget.setColumnCount(len(data[0]))
-    #table_widget.setColumnCount(4)  # Ensure the column count matches your data schema    
-    table_widget.setHorizontalHeaderLabels(["Name", "Type", "Recommended by", "Tags"])
-
-    # Center the header text
-    header = table_widget.horizontalHeader()
-    header.setDefaultAlignment(Qt.AlignmentFlag.AlignCenter)
-    # Adjust column widths to stretch and cover the entire table width
-    header.setSectionResizeMode(QHeaderView.Stretch)
-
-    for row_index, row_data in enumerate(data):
-        for col_index, cell_data in enumerate(row_data):
-            item = QTableWidgetItem(cell_data)
-            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the item text
-            table_widget.setItem(row_index, col_index, item)
-
-def insert_data(item_info):
+def insert_data(item_info): # Used to insert data (item_info) into DB
 
     print("inserting data:",item_info)
 
@@ -93,25 +67,20 @@ def insert_data(item_info):
 
     connection.commit()
     connection.close()
-    #???
 
-# Run setup_database when the module is first imported
-setup_database()
+def delete_data(text_id): # Uses the item ID as string to search the item in DB and delete it   
+    item_id = int(text_id)
+    print("deleting item with ID:",item_id)
 
+    connection = sqlite3.connect(db_path)
+    cursor = connection.cursor()
+    
+    cursor.execute('''
+    DELETE FROM media 
+    WHERE id = ?
+    ''', (item_id,))  # Pass item_id as a tuple. without the (), the code wont work well.
+    
+    connection.commit()
+    connection.close()
 
-# Unused code
-
-''' Was used to check if the database table was created correctly.
-# Check if the table was created or already exists
-cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='media'")
-if cursor.fetchone() is None:
-    print("Error: Table 'media' was not created.")
-else:
-    print("Table 'media' is ready.")
-'''
-''' used in get_data function, used to return an empty list. Doesnt seem to be necessary
-    if not data:
-        print("No items found in the database.")
-        return []
-    return data
-'''
+setup_database() # Run setup_database when the module is first imported
