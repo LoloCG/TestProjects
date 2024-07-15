@@ -1,19 +1,26 @@
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QWidget, QMainWindow, QTableWidgetItem, QHeaderView, QMessageBox
+from PySide6.QtCore import Qt, QSettings
+from PySide6.QtWidgets import (
+        QWidget, QMainWindow, QTableWidgetItem, 
+        QHeaderView, QMessageBox
+)
+from UI_files.UI_MWindow import Ui_MainAppWindow
+from UI_files.UI_VideoQuery import Ui_VideoForm
+from UI_files.UI_AboutWindow import Ui_AboutDialog
 
-from Widgets.UI_MWindow import Ui_MainAppWindow
-from Widgets.UI_VideoQuery import Ui_VideoForm
-from Widgets.UI_AboutWindow import Ui_AboutDialog
+from Themes.themes import Palettes
 
 from data_handler import (
     get_data, insert_data, get_media_types, delete_data
 )
 
 class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required instead of QWidget, as setCentralWidget is part of the first one.
-    def __init__(self):
+    def __init__(self, settings):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("Media Database")
+        
+        self.settings = settings
+        self.load_settings()
 
         self.VideoQueryMenuButton.triggered.connect(self.ShowVideoQuery)
         self.AddNewButton.clicked.connect(self.ShowVideoQuery)
@@ -21,11 +28,48 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         self.SearchButton.clicked.connect(self.searchfunct)
         self.PrintSelectedButton.clicked.connect(self.InfoSelectedItem)
         self.Delete_selectedMenuButton.triggered.connect(self.DeleteItem)
+        
+        self.DarkThemeAction.triggered.connect(self.SelectedTheme)
+        self.LightThemeAction.triggered.connect(self.SelectedTheme)
+        self.NeonThemeAction.triggered.connect(self.SelectedTheme)
+        self.theme_action_group = [self.DarkThemeAction, self.LightThemeAction, self.NeonThemeAction]
 
         DBdata = get_data() 
         # calls the function introducing the data to the database.
             # function uses two variables. The object and the data that will be used.
         self.populate_table(self.MainTableWidget, DBdata)
+
+    def load_settings(self):
+        theme = self.settings.value("theme", "light")
+        if theme == "dark":
+            self.DarkThemeAction.setChecked(True)
+            self.setPalette(Palettes.dark_palette())
+        elif theme == "neon":
+            self.NeonThemeAction.setChecked(True)
+            self.setPalette(Palettes.neon_palette())
+        else:
+            self.LightThemeAction.setChecked(True)
+            self.setPalette(Palettes.light_palette())
+
+    def save_settings(self, theme):
+        self.settings.setValue("theme", theme)
+
+    def SelectedTheme(self):
+        sender = self.sender()
+
+        if sender == self.DarkThemeAction:
+            self.setPalette(Palettes.dark_palette())
+            self.save_settings("dark")
+        elif sender == self.LightThemeAction:
+            self.setPalette(Palettes.light_palette())
+            self.save_settings("light")
+        elif sender == self.NeonThemeAction:
+            self.setPalette(Palettes.neon_palette())
+            self.save_settings("neon")
+
+        # Ensure only the triggered action is checked
+        for action in self.theme_action_group:
+            action.setChecked(action == sender)
 
     def populate_table(self, table_widget, data): # Obtains the data from the DB to show it in the table of main window
         if not data:
@@ -172,35 +216,3 @@ class AboutDialog(QWidget, Ui_AboutDialog):
         super().__init__()
         self.setupUi(self)
         self.AboutAcceptButton.clicked.connect(self.close)
-
-
-'''
-table_widget = self.MainTableWidget()
-
-
-print("Name:", name)
-print("Type:", media_type)
-print("Recommended by:", recommendation)
-print("Tags:", tags)
-'''
-
-'''
-try:
-    DBdata = get_data() # obtains the data that will be displayed in the table
-except Exception as e:
-    print(f"Error obtaining data: {e}") #This line prints an error message to the console. The message includes the string "Error obtaining data: " followed by the exception message stored in e.
-    DBdata = [] # sets DBdata to an empty list. This ensures that the variable DBdata is always defined, even if an error occurs, and allows the rest of the program to handle the situation where no data is available gracefully.
-'''
-
-'''
-row = selected_items[0].row()
-row_data = [] 
-for column in range(self.MainTableWidget.columnCount()):
-    item = self.MainTableWidget.item(row, column)
-    row_data.append(item.text() if item else "")
-
-print("item set to delete:", item)
-print("row data:", row_data)
-
-#delete_data(row_data)
-'''
