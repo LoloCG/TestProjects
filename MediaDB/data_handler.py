@@ -32,7 +32,7 @@ def setup_database(): # Creates database if it doesnt exist
     else:
         print("Database found at: ", db_path)
 
-def get_data(): # Obtains all the data from the database
+def get_alldata(): # Obtains all the data from the database
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
     
@@ -42,6 +42,15 @@ def get_data(): # Obtains all the data from the database
     connection.close()
 
     return data
+
+def get_itemdata(item_id):
+    connection = sqlite3.connect(db_path)
+    cursor = connection.cursor()
+    
+    cursor.execute('SELECT name, type, recommended_by, tags FROM media WHERE id = ?', (item_id,))
+    item_data = cursor.fetchone()
+    connection.close()
+    return item_data
 
 def get_media_types(): # Obtains existing "types" from the database, to be used in type combobox in query
     connection = sqlite3.connect(db_path)
@@ -83,4 +92,17 @@ def delete_data(text_id): # Uses the item ID as string to search the item in DB 
     connection.commit()
     connection.close()
 
+def update_data(item_id, item_info):
+    connection = sqlite3.connect(db_path)
+    cursor = connection.cursor()
+    
+    cursor.execute('''
+    UPDATE media 
+    SET name = ?, type = ?, recommended_by = ?, tags = ? 
+    WHERE id = ?
+    ''', (*item_info, item_id))
+
+    connection.commit()
+    connection.close()
+    
 setup_database() # Run setup_database when the module is first imported

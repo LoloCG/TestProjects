@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'MainWindowbUDXkZ.ui'
+## Form generated from reading UI file 'MainWindowDrsuMK.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.2
 ##
@@ -16,11 +16,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplication, QFrame,
-    QHBoxLayout, QHeaderView, QLabel, QLineEdit,
-    QMainWindow, QMenu, QMenuBar, QPushButton,
-    QSizePolicy, QSpacerItem, QTableWidget, QTableWidgetItem,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplication, QComboBox,
+    QFrame, QHBoxLayout, QHeaderView, QLabel,
+    QLineEdit, QMainWindow, QMenu, QMenuBar,
+    QPushButton, QSizePolicy, QSpacerItem, QTableWidget,
+    QTableWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainAppWindow(object):
     def setupUi(self, MainAppWindow):
@@ -71,10 +71,12 @@ class Ui_MainAppWindow(object):
 
         self.verticalLayout.addWidget(self.MainWindowLabel)
 
-        self.verticalSpacer = QSpacerItem(1, 4, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        self.verticalSpacer = QSpacerItem(1, 6, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
 
         self.verticalLayout.addItem(self.verticalSpacer)
 
+        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.SearchLineEdit = QLineEdit(self.CentralWidget)
@@ -90,7 +92,45 @@ class Ui_MainAppWindow(object):
         self.horizontalLayout_2.addWidget(self.SearchButton)
 
 
-        self.verticalLayout.addLayout(self.horizontalLayout_2)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setSpacing(0)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(0, -1, 0, 0)
+        self.SearchByLabel = QLabel(self.CentralWidget)
+        self.SearchByLabel.setObjectName(u"SearchByLabel")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(1)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.SearchByLabel.sizePolicy().hasHeightForWidth())
+        self.SearchByLabel.setSizePolicy(sizePolicy)
+        self.SearchByLabel.setAcceptDrops(False)
+        self.SearchByLabel.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.SearchByLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.horizontalLayout_3.addWidget(self.SearchByLabel)
+
+        self.SearchByComboBox = QComboBox(self.CentralWidget)
+        self.SearchByComboBox.addItem("")
+        self.SearchByComboBox.addItem("")
+        self.SearchByComboBox.addItem("")
+        self.SearchByComboBox.addItem("")
+        self.SearchByComboBox.setObjectName(u"SearchByComboBox")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
+        sizePolicy1.setHorizontalStretch(2)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.SearchByComboBox.sizePolicy().hasHeightForWidth())
+        self.SearchByComboBox.setSizePolicy(sizePolicy1)
+        self.SearchByComboBox.setBaseSize(QSize(1, 0))
+
+        self.horizontalLayout_3.addWidget(self.SearchByComboBox)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
+
+
+        self.verticalLayout.addLayout(self.verticalLayout_2)
 
         self.MainTableWidget = QTableWidget(self.CentralWidget)
         self.MainTableWidget.setObjectName(u"MainTableWidget")
@@ -113,6 +153,11 @@ class Ui_MainAppWindow(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.EditSelectedButton = QPushButton(self.CentralWidget)
+        self.EditSelectedButton.setObjectName(u"EditSelectedButton")
+
+        self.horizontalLayout.addWidget(self.EditSelectedButton)
+
         self.AddNewButton = QPushButton(self.CentralWidget)
         self.AddNewButton.setObjectName(u"AddNewButton")
 
@@ -175,9 +220,16 @@ class Ui_MainAppWindow(object):
         self.NeonThemeAction.setText(QCoreApplication.translate("MainAppWindow", u"Neon Theme", None))
         self.MainWindowLabel.setText(QCoreApplication.translate("MainAppWindow", u"Media DataBase", None))
         self.SearchButton.setText(QCoreApplication.translate("MainAppWindow", u"Search", None))
+        self.SearchByLabel.setText(QCoreApplication.translate("MainAppWindow", u"Search By:", None))
+        self.SearchByComboBox.setItemText(0, QCoreApplication.translate("MainAppWindow", u"Name", None))
+        self.SearchByComboBox.setItemText(1, QCoreApplication.translate("MainAppWindow", u"Type", None))
+        self.SearchByComboBox.setItemText(2, QCoreApplication.translate("MainAppWindow", u"Recommended By", None))
+        self.SearchByComboBox.setItemText(3, QCoreApplication.translate("MainAppWindow", u"Tags", None))
+
+        self.EditSelectedButton.setText(QCoreApplication.translate("MainAppWindow", u"Edit Selected", None))
         self.AddNewButton.setText(QCoreApplication.translate("MainAppWindow", u"Add New", None))
         self.PrintSelectedButton.setText(QCoreApplication.translate("MainAppWindow", u"Print Selected", None))
-        self.Show_RandomButton.setText(QCoreApplication.translate("MainAppWindow", u"Show Random", None))
+        self.Show_RandomButton.setText(QCoreApplication.translate("MainAppWindow", u"Recommend me Randomly", None))
         self.menuSettings.setTitle(QCoreApplication.translate("MainAppWindow", u"Settings", None))
         self.ThemeMenuButton.setTitle(QCoreApplication.translate("MainAppWindow", u"Theme", None))
         self.menuAdd_new.setTitle(QCoreApplication.translate("MainAppWindow", u"Media", None))

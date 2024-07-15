@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt, QSettings
 from PySide6.QtWidgets import (
-        QWidget, QMainWindow, QTableWidgetItem, 
+        QWidget, QMainWindow, QTableWidgetItem, QApplication,
         QHeaderView, QMessageBox
 )
 from UI_files.UI_MWindow import Ui_MainAppWindow
@@ -10,7 +10,7 @@ from UI_files.UI_AboutWindow import Ui_AboutDialog
 from Themes.themes import Palettes
 
 from data_handler import (
-    get_data, insert_data, get_media_types, delete_data
+    get_alldata, insert_data, get_media_types, delete_data, get_itemdata, update_data
 )
 
 class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required instead of QWidget, as setCentralWidget is part of the first one.
@@ -22,19 +22,23 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         self.settings = settings
         self.load_settings()
 
+        self.AboutMenuButton.triggered.connect(self.ShowAboutDialog)
+
+        # Buttons related to the table
         self.VideoQueryMenuButton.triggered.connect(self.ShowVideoQuery)
         self.AddNewButton.clicked.connect(self.ShowVideoQuery)
-        self.AboutMenuButton.triggered.connect(self.ShowAboutDialog)
         self.SearchButton.clicked.connect(self.searchfunct)
-        self.PrintSelectedButton.clicked.connect(self.InfoSelectedItem)
         self.Delete_selectedMenuButton.triggered.connect(self.DeleteItem)
-        
+        self.PrintSelectedButton.clicked.connect(self.InfoSelectedItem)
+        self.EditSelectedButton.clicked.connect(self.EditInQuery)
+
+        # Buttons about settings
         self.DarkThemeAction.triggered.connect(self.SelectedTheme)
         self.LightThemeAction.triggered.connect(self.SelectedTheme)
         self.NeonThemeAction.triggered.connect(self.SelectedTheme)
         self.theme_action_group = [self.DarkThemeAction, self.LightThemeAction, self.NeonThemeAction]
 
-        DBdata = get_data() 
+        DBdata = get_alldata() 
         # calls the function introducing the data to the database.
             # function uses two variables. The object and the data that will be used.
         self.populate_table(self.MainTableWidget, DBdata)
@@ -43,33 +47,37 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         theme = self.settings.value("theme", "light")
         if theme == "dark":
             self.DarkThemeAction.setChecked(True)
-            self.setPalette(Palettes.dark_palette())
+            self.set_global_palette(Palettes.dark_palette())
         elif theme == "neon":
             self.NeonThemeAction.setChecked(True)
-            self.setPalette(Palettes.neon_palette())
+            self.set_global_palette(Palettes.neon_palette())
         else:
             self.LightThemeAction.setChecked(True)
-            self.setPalette(Palettes.light_palette())
+            self.set_global_palette(Palettes.light_palette())
 
     def save_settings(self, theme):
+        print("saving settings")
         self.settings.setValue("theme", theme)
 
     def SelectedTheme(self):
         sender = self.sender()
 
         if sender == self.DarkThemeAction:
-            self.setPalette(Palettes.dark_palette())
+            self.set_global_palette(Palettes.dark_palette())
             self.save_settings("dark")
         elif sender == self.LightThemeAction:
-            self.setPalette(Palettes.light_palette())
+            self.set_global_palette(Palettes.light_palette())
             self.save_settings("light")
         elif sender == self.NeonThemeAction:
-            self.setPalette(Palettes.neon_palette())
+            self.set_global_palette(Palettes.neon_palette())
             self.save_settings("neon")
 
         # Ensure only the triggered action is checked
         for action in self.theme_action_group:
             action.setChecked(action == sender)
+
+    def set_global_palette(self, palette):
+        QApplication.instance().setPalette(palette) # It applies the palette to the application level, rather than window level only.
 
     def populate_table(self, table_widget, data): # Obtains the data from the DB to show it in the table of main window
         if not data:
@@ -138,9 +146,25 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         delete_data(item_id)
         
         # Refreshes the table in main windows before going back to it
-        DBdata = get_data()
+        DBdata = get_alldata()
         self.populate_table(self.MainTableWidget, DBdata)
 
+    def EditInQuery(self):
+        selected_items = self.MainTableWidget.selectedItems()
+        
+        if not selected_items:
+            print("No item selected")
+            return
+            
+        row = selected_items[0].row()
+        item_id = self.MainTableWidget.item(row, 0).text()
+
+        print(item_id)
+
+        self.video_query_window = VideoQuery(self, self.MainTableWidget, item_id)
+        self.video_query_window.show()
+        self.video_query_window.raise_()  
+        
     # Functions to show different windows
     def ShowVideoQuery(self):
         print("showing video query")
@@ -155,17 +179,40 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         self.Show_About_Dialog.raise_()
 
 class VideoQuery(QWidget, Ui_VideoForm):
-    def __init__(self, main_window, table_widget):
+    def __init__(self, main_window, table_widget, item_id=None):
         super().__init__()
         self.setupUi(self) 
         self.main_window = main_window  # Store the reference to the MainWindow instance
         self.table_widget = table_widget
+        self.item_id = item_id
 
         self.populate_type_combobox()
-        
+
+        print("id of item to edit:",item_id)
+
+        if self.item_id:
+            self.load_item_data()
+            '''
+            get_itemdata(item_id)
+
+            self.Name_LineEdit.setText(item_data[0])
+            self.Type_ComboBox.setCurrentText(item_data[1])
+            self.Recommendation_LineEdit.setText(item_data[2])
+            self.Tags_LineEdit.setText(item_data[3])
+            '''
+
         self.CancelButton.clicked.connect(self.close)
         self.ApplySubmitButton.clicked.connect(self.ApplySubmit_Item)
         self.AcceptSubmitButton.clicked.connect(self.AcceptSubmit_Item)
+
+    def load_item_data(self):
+        item_data = get_itemdata(self.item_id)
+
+        if item_data: # TODO: is this if really necessary?
+            self.Name_LineEdit.setText(item_data[0])
+            self.Type_ComboBox.setCurrentText(item_data[1])
+            self.Recommendation_LineEdit.setText(item_data[2])
+            self.Tags_LineEdit.setText(item_data[3])
 
     def ApplySubmit_Item(self):
         self.Submit_Item(False)  # Call Submit_Item with False
@@ -190,22 +237,27 @@ class VideoQuery(QWidget, Ui_VideoForm):
             return
 
         item_info = [name, media_type, recommendation, tags]
-        insert_data(item_info)
 
-        # Refresh the table in the main window
-        DBdata = get_data()
+        if self.item_id:
+            update_data(self.item_id, item_info)
+        else:
+            insert_data(item_info)
+
+        DBdata = get_alldata()
         self.main_window.populate_table(self.table_widget, DBdata)
 
-        # Clear the input fields after submission
+        self.clear_fields()
+
+        if CloseBool:
+            self.close()
+        else:
+            self.populate_type_combobox()
+
+    def clear_fields(self):
         self.Name_LineEdit.clear()
         self.Type_ComboBox.setCurrentIndex(0)
         self.Recommendation_LineEdit.clear()
         self.Tags_LineEdit.clear()
-
-        if CloseBool:
-            self.close()
-        else: 
-            self.populate_type_combobox()
 
     def populate_type_combobox(self):
         types = get_media_types()
