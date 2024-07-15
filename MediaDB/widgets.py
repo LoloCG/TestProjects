@@ -27,9 +27,8 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         # Buttons related to the table
         self.VideoQueryMenuButton.triggered.connect(self.ShowVideoQuery)
         self.AddNewButton.clicked.connect(self.ShowVideoQuery)
-        self.SearchButton.clicked.connect(self.searchfunct)
         self.Delete_selectedMenuButton.triggered.connect(self.DeleteItem)
-        self.PrintSelectedButton.clicked.connect(self.InfoSelectedItem)
+        self.InfoSelectedButton.clicked.connect(self.InfoSelectedItem)
         self.EditSelectedButton.clicked.connect(self.EditInQuery)
 
         # Buttons about settings
@@ -42,6 +41,9 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         # calls the function introducing the data to the database.
             # function uses two variables. The object and the data that will be used.
         self.populate_table(self.MainTableWidget, DBdata)
+
+        # Connect search field
+        self.SearchLineEdit.textChanged.connect(self.searchfunct)
 
     def load_settings(self):
         theme = self.settings.value("theme", "light")
@@ -108,9 +110,26 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
     # function to find in db from MWindows
         # not finished yet. Does nothing at the moment.
     def searchfunct(self):
-        search_text = self.SearchLineEdit.text()
-        print("Searching for:",search_text, "in db") 
-    
+        search_text = self.SearchLineEdit.text().lower()
+        search_column = self.SearchByComboBox.currentText()
+
+        column_map = {
+            "Name": 1,
+            "Type": 2,
+            "Recommended By": 3,
+            "Tags": 4
+        }
+
+        data = get_alldata()
+
+        if search_column in column_map:
+            column_index = column_map[search_column]
+            filtered_data = [row for row in data if search_text in row[column_index].lower()]
+        else:
+            filtered_data = data  # Default to all data if column not found
+
+        self.populate_table(self.MainTableWidget, filtered_data)
+            
     # function to print info of the selected item in the db
     def InfoSelectedItem(self):
         selected_items = self.MainTableWidget.selectedItems()

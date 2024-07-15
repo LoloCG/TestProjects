@@ -67,8 +67,8 @@ class Palettes():
         neonPalette.setColor(QPalette.ColorRole.Window, QColor(20, 20, 20))
         neonPalette.setColor(QPalette.ColorRole.WindowText, QColor(57, 255, 20))  # Neon Green
         neonPalette.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.WindowText, QColor(127, 127, 127))
-        neonPalette.setColor(QPalette.ColorRole.Base, QColor(0, 0, 0))
-        neonPalette.setColor(QPalette.ColorRole.AlternateBase, QColor(30, 30, 30))
+        neonPalette.setColor(QPalette.ColorRole.Base, QColor(5, 5, 5))
+        neonPalette.setColor(QPalette.ColorRole.AlternateBase, QColor(15, 15, 15))
         neonPalette.setColor(QPalette.ColorRole.ToolTipBase, QColor(0, 0, 0))
         neonPalette.setColor(QPalette.ColorRole.ToolTipText, QColor(57, 255, 20))
         neonPalette.setColor(QPalette.ColorRole.Text, QColor(57, 255, 20))
@@ -78,8 +78,8 @@ class Palettes():
         neonPalette.setColor(QPalette.ColorRole.Button, QColor(0, 0, 0))
         neonPalette.setColor(QPalette.ColorRole.ButtonText, QColor(57, 255, 20))
         neonPalette.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.ButtonText, QColor(127, 127, 127))
-        neonPalette.setColor(QPalette.ColorRole.BrightText, QColor(150, 0, 150))  # Neon Pink
-        neonPalette.setColor(QPalette.ColorRole.Link, QColor(0, 150, 150))  # Neon Cyan
+        neonPalette.setColor(QPalette.ColorRole.BrightText, QColor(150, 0, 150))  
+        neonPalette.setColor(QPalette.ColorRole.Link, QColor(0, 150, 150)) 
         neonPalette.setColor(QPalette.ColorRole.Highlight, QColor(55, 60, 55))  
         neonPalette.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.Highlight, QColor(80, 80, 80))
         neonPalette.setColor(QPalette.ColorRole.HighlightedText, QColor(57, 255, 20))

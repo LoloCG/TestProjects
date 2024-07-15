@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'MainWindowDrsuMK.ui'
+## Form generated from reading UI file 'MainWindowmdLCvc.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.2
 ##
@@ -75,41 +75,31 @@ class Ui_MainAppWindow(object):
 
         self.verticalLayout.addItem(self.verticalSpacer)
 
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.SearchLineEdit = QLineEdit(self.CentralWidget)
         self.SearchLineEdit.setObjectName(u"SearchLineEdit")
         self.SearchLineEdit.setEnabled(True)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(5)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.SearchLineEdit.sizePolicy().hasHeightForWidth())
+        self.SearchLineEdit.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_2.addWidget(self.SearchLineEdit)
 
-        self.SearchButton = QPushButton(self.CentralWidget)
-        self.SearchButton.setObjectName(u"SearchButton")
-        self.SearchButton.setEnabled(True)
-
-        self.horizontalLayout_2.addWidget(self.SearchButton)
-
-
-        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
-
-        self.horizontalLayout_3 = QHBoxLayout()
-        self.horizontalLayout_3.setSpacing(0)
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(0, -1, 0, 0)
         self.SearchByLabel = QLabel(self.CentralWidget)
         self.SearchByLabel.setObjectName(u"SearchByLabel")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(1)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.SearchByLabel.sizePolicy().hasHeightForWidth())
-        self.SearchByLabel.setSizePolicy(sizePolicy)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
+        sizePolicy1.setHorizontalStretch(1)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.SearchByLabel.sizePolicy().hasHeightForWidth())
+        self.SearchByLabel.setSizePolicy(sizePolicy1)
         self.SearchByLabel.setAcceptDrops(False)
         self.SearchByLabel.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.SearchByLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_3.addWidget(self.SearchByLabel)
+        self.horizontalLayout_2.addWidget(self.SearchByLabel)
 
         self.SearchByComboBox = QComboBox(self.CentralWidget)
         self.SearchByComboBox.addItem("")
@@ -117,20 +107,14 @@ class Ui_MainAppWindow(object):
         self.SearchByComboBox.addItem("")
         self.SearchByComboBox.addItem("")
         self.SearchByComboBox.setObjectName(u"SearchByComboBox")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
-        sizePolicy1.setHorizontalStretch(2)
-        sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.SearchByComboBox.sizePolicy().hasHeightForWidth())
         self.SearchByComboBox.setSizePolicy(sizePolicy1)
         self.SearchByComboBox.setBaseSize(QSize(1, 0))
 
-        self.horizontalLayout_3.addWidget(self.SearchByComboBox)
+        self.horizontalLayout_2.addWidget(self.SearchByComboBox)
 
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
-
-
-        self.verticalLayout.addLayout(self.verticalLayout_2)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
 
         self.MainTableWidget = QTableWidget(self.CentralWidget)
         self.MainTableWidget.setObjectName(u"MainTableWidget")
@@ -163,10 +147,10 @@ class Ui_MainAppWindow(object):
 
         self.horizontalLayout.addWidget(self.AddNewButton)
 
-        self.PrintSelectedButton = QPushButton(self.CentralWidget)
-        self.PrintSelectedButton.setObjectName(u"PrintSelectedButton")
+        self.InfoSelectedButton = QPushButton(self.CentralWidget)
+        self.InfoSelectedButton.setObjectName(u"InfoSelectedButton")
 
-        self.horizontalLayout.addWidget(self.PrintSelectedButton)
+        self.horizontalLayout.addWidget(self.InfoSelectedButton)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -219,7 +203,6 @@ class Ui_MainAppWindow(object):
 #endif // QT_CONFIG(shortcut)
         self.NeonThemeAction.setText(QCoreApplication.translate("MainAppWindow", u"Neon Theme", None))
         self.MainWindowLabel.setText(QCoreApplication.translate("MainAppWindow", u"Media DataBase", None))
-        self.SearchButton.setText(QCoreApplication.translate("MainAppWindow", u"Search", None))
         self.SearchByLabel.setText(QCoreApplication.translate("MainAppWindow", u"Search By:", None))
         self.SearchByComboBox.setItemText(0, QCoreApplication.translate("MainAppWindow", u"Name", None))
         self.SearchByComboBox.setItemText(1, QCoreApplication.translate("MainAppWindow", u"Type", None))
@@ -228,7 +211,7 @@ class Ui_MainAppWindow(object):
 
         self.EditSelectedButton.setText(QCoreApplication.translate("MainAppWindow", u"Edit Selected", None))
         self.AddNewButton.setText(QCoreApplication.translate("MainAppWindow", u"Add New", None))
-        self.PrintSelectedButton.setText(QCoreApplication.translate("MainAppWindow", u"Print Selected", None))
+        self.InfoSelectedButton.setText(QCoreApplication.translate("MainAppWindow", u"More Info", None))
         self.Show_RandomButton.setText(QCoreApplication.translate("MainAppWindow", u"Recommend me Randomly", None))
         self.menuSettings.setTitle(QCoreApplication.translate("MainAppWindow", u"Settings", None))
         self.ThemeMenuButton.setTitle(QCoreApplication.translate("MainAppWindow", u"Theme", None))
