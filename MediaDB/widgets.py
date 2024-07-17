@@ -1,3 +1,5 @@
+import random
+
 from PySide6.QtCore import Qt, QSettings
 from PySide6.QtWidgets import (
         QWidget, QMainWindow, QTableWidgetItem, QApplication,
@@ -6,6 +8,7 @@ from PySide6.QtWidgets import (
 from UI_files.UI_MWindow import Ui_MainAppWindow
 from UI_files.UI_VideoQuery import Ui_VideoForm
 from UI_files.UI_AboutWindow import Ui_AboutDialog
+from UI_files.UI_ItemInfo import Ui_ItemInfoWidget
 
 from Themes.themes import Palettes
 
@@ -23,6 +26,7 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         self.load_settings()
 
         self.AboutMenuButton.triggered.connect(self.ShowAboutDialog)
+        self.Show_RandomButton.clicked.connect(self.ShowRandom)
 
         # Buttons related to the table
         self.VideoQueryMenuButton.triggered.connect(self.ShowVideoQuery)
@@ -44,7 +48,7 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
 
         # Connect search field
         self.SearchLineEdit.textChanged.connect(self.searchfunct)
-
+# Settings functions
     def load_settings(self):
         theme = self.settings.value("theme", "light")
         if theme == "dark":
@@ -61,6 +65,7 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         print("saving settings")
         self.settings.setValue("theme", theme)
 
+# Palette functions
     def SelectedTheme(self):
         sender = self.sender()
 
@@ -83,11 +88,11 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
 
     def populate_table(self, table_widget, data): # Obtains the data from the DB to show it in the table of main window
         if not data:
-            print("No data to display.")
+            #print("No data to display.")
             table_widget.setRowCount(0)
             return
                 
-        print("populating table with ", len(data), " rows and ", len(data[0]), "columns")
+        #print("populating table with ", len(data), " rows and ", len(data[0]), "columns")
         table_widget.setRowCount(len(data))
         table_widget.setColumnCount(len(data[0]))
         table_widget.setHorizontalHeaderLabels(["id", "Name", "Type", "Recommended by", "Tags"])
@@ -107,12 +112,11 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
 
         table_widget.setColumnHidden(0, True)  # Hide the ID column
 
-    # function to find in db from MWindows
-        # not finished yet. Does nothing at the moment.
-    def searchfunct(self):
+    def searchfunct(self): # Searches items in the DB based on the SearchLineEdit and SearchByComboBox objects. Sends to populate_table to only show these 
         search_text = self.SearchLineEdit.text().lower()
         search_column = self.SearchByComboBox.currentText()
 
+        # TODO: This is hardcoded ATM, Maybe in the future make it more dynamic
         column_map = {
             "Name": 1,
             "Type": 2,
@@ -129,9 +133,48 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
             filtered_data = data  # Default to all data if column not found
 
         self.populate_table(self.MainTableWidget, filtered_data)
+
+    def Current_Table_Items(self): # Retrieves all the items that are displayed in the table.
+        row_count = self.MainTableWidget.rowCount()
+        column_count = self.MainTableWidget.columnCount()
+
+        current_data = []
+
+        for row in range(row_count):
+            row_data = []
+            for column in range(column_count):
+                item = self.MainTableWidget.item(row, column)
+                row_data.append(item.text() if item else "")
+            current_data.append(row_data)
+
+        return current_data
+
+    def ShowRandom(self): # Selects a random item from the current table
+        current_data = self.Current_Table_Items() 
+        
+        if current_data:
+            current_data_id = [row[0] for row in current_data] # Uses a list comprehension to create a list of the IDs from each row 
+            random_id = random.choice(current_data_id)  # Select a random item from the current data
             
-    # function to print info of the selected item in the db
-    def InfoSelectedItem(self):
+            item_data = get_itemdata(random_id)
+            
+            item_data_dict = {  
+            "name": item_data[0],  
+            "type": item_data[1],
+            "recommended": item_data[2],
+            "tags": item_data[3]
+        }
+            
+            self.Show_ItemInfo_Widget = ItemInfoWidget(item_data_dict)
+            self.Show_ItemInfo_Widget.show()
+            self.Show_ItemInfo_Widget.raise_()
+
+        else:   # TODO: show a warning window or sound to indicate invalid
+            print("No data available to randomize.")
+            return
+
+    def InfoSelectedItem(self): # Prints all info of the selected item from the db to the terminal. 
+        # TODO: make it use ItemInfoWidget for this
         selected_items = self.MainTableWidget.selectedItems()
         if not selected_items:
             print("No item selected")
@@ -142,14 +185,18 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         for column in range(self.MainTableWidget.columnCount()):
             item = self.MainTableWidget.item(row, column)
             row_data.append(item.text() if item else "")
-        
-        # TODO: make it so that when its empty it is not printed at all or says none
-        print("Info of selected film: ")
-        print(f"ID: {row_data[0]}")
-        print(f"Name: {row_data[1]}")
-        print(f"Type: {row_data[2]}")
-        print(f"Recommended by: {row_data[3]}")
-        print(f"Tags: {row_data[4]}")
+
+        item_data_dict = {
+            "id": row_data[0],  
+            "name": row_data[1],  
+            "type": row_data[2],
+            "recommended": row_data[3],
+            "tags": row_data[4]
+        }
+
+        self.Show_ItemInfo_Widget = ItemInfoWidget(item_data_dict)
+        self.Show_ItemInfo_Widget.show()
+        self.Show_ItemInfo_Widget.raise_()
 
     def DeleteItem(self):
         selected_items = self.MainTableWidget.selectedItems()
@@ -172,19 +219,19 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         selected_items = self.MainTableWidget.selectedItems()
         
         if not selected_items:
-            print("No item selected")
+            #print("No item selected")
             return
             
         row = selected_items[0].row()
         item_id = self.MainTableWidget.item(row, 0).text()
 
-        print(item_id)
+        #print(item_id)
 
         self.video_query_window = VideoQuery(self, self.MainTableWidget, item_id)
         self.video_query_window.show()
         self.video_query_window.raise_()  
         
-    # Functions to show different windows
+# Functions to show different windows
     def ShowVideoQuery(self):
         print("showing video query")
         self.video_query_window = VideoQuery(self, self.MainTableWidget) #Requires the passing self to the VideoQuery constructorof & the table widget 
@@ -192,11 +239,12 @@ class MainWindow(QMainWindow, Ui_MainAppWindow): # QMainWindow is required inste
         self.video_query_window.raise_()  # Bring the window to the front
 
     def ShowAboutDialog(self):
-        print("Showing About Dialog")
+        #print("Showing About Dialog")
         self.Show_About_Dialog = AboutDialog()
         self.Show_About_Dialog.show()
         self.Show_About_Dialog.raise_()
 
+    #def ShowRandom(self):
 class VideoQuery(QWidget, Ui_VideoForm):
     def __init__(self, main_window, table_widget, item_id=None):
         super().__init__()
@@ -207,7 +255,7 @@ class VideoQuery(QWidget, Ui_VideoForm):
 
         self.populate_type_combobox()
 
-        print("id of item to edit:",item_id)
+        #print("id of item to edit:",item_id)
 
         if self.item_id:
             self.load_item_data()
@@ -246,13 +294,16 @@ class VideoQuery(QWidget, Ui_VideoForm):
         tags = self.Tags_LineEdit.text()
 
         if not name or not media_type:
+            # TODO: maybe remove one of the two buttons
             print("Name and media type fields required")
             ret = QMessageBox.information(self, "Data entry error", "Fields \"Name\" and \"Type\" are required",
                                     QMessageBox.Ok | QMessageBox.Cancel)
+            '''
             if ret == QMessageBox.Ok:
                 print("User chose OK")
             else:
                 print("User chose Cancel")
+            '''
             return
 
         item_info = [name, media_type, recommendation, tags]
@@ -287,3 +338,15 @@ class AboutDialog(QWidget, Ui_AboutDialog):
         super().__init__()
         self.setupUi(self)
         self.AboutAcceptButton.clicked.connect(self.close)
+
+class ItemInfoWidget(QWidget, Ui_ItemInfoWidget):
+    def __init__(self,item_data):
+        super().__init__()
+        self.setupUi(self)
+        self.pushButton.clicked.connect(self.close)
+
+        # Populate the UI elements with the item data
+        self.NameLineEditInfo.setText(item_data["name"])
+        self.TypeLineEditInfo.setText(item_data["type"])
+        self.ReccLineEditInfo.setText(item_data["recommended"])
+        self.TagsLineEditInfo.setText(item_data["tags"])

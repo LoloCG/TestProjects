@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'MainWindowmdLCvc.ui'
+## Form generated from reading UI file 'MainWindowTNIHmM.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.2
 ##
@@ -26,7 +26,7 @@ class Ui_MainAppWindow(object):
     def setupUi(self, MainAppWindow):
         if not MainAppWindow.objectName():
             MainAppWindow.setObjectName(u"MainAppWindow")
-        MainAppWindow.resize(509, 358)
+        MainAppWindow.resize(531, 373)
         self.MusicQueryMenuButton = QAction(MainAppWindow)
         self.MusicQueryMenuButton.setObjectName(u"MusicQueryMenuButton")
         self.MusicQueryMenuButton.setEnabled(False)
@@ -50,6 +50,9 @@ class Ui_MainAppWindow(object):
         self.NeonThemeAction = QAction(MainAppWindow)
         self.NeonThemeAction.setObjectName(u"NeonThemeAction")
         self.NeonThemeAction.setCheckable(True)
+        self.actionAdvanced_Random = QAction(MainAppWindow)
+        self.actionAdvanced_Random.setObjectName(u"actionAdvanced_Random")
+        self.actionAdvanced_Random.setEnabled(False)
         self.CentralWidget = QWidget(MainAppWindow)
         self.CentralWidget.setObjectName(u"CentralWidget")
         self.verticalLayout = QVBoxLayout(self.CentralWidget)
@@ -71,7 +74,7 @@ class Ui_MainAppWindow(object):
 
         self.verticalLayout.addWidget(self.MainWindowLabel)
 
-        self.verticalSpacer = QSpacerItem(1, 6, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        self.verticalSpacer = QSpacerItem(1, 10, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
 
         self.verticalLayout.addItem(self.verticalSpacer)
 
@@ -163,7 +166,7 @@ class Ui_MainAppWindow(object):
         MainAppWindow.setCentralWidget(self.CentralWidget)
         self.menuBar = QMenuBar(MainAppWindow)
         self.menuBar.setObjectName(u"menuBar")
-        self.menuBar.setGeometry(QRect(0, 0, 509, 22))
+        self.menuBar.setGeometry(QRect(0, 0, 531, 22))
         self.menuSettings = QMenu(self.menuBar)
         self.menuSettings.setObjectName(u"menuSettings")
         self.ThemeMenuButton = QMenu(self.menuSettings)
@@ -182,7 +185,10 @@ class Ui_MainAppWindow(object):
         self.ThemeMenuButton.addAction(self.NeonThemeAction)
         self.menuAdd_new.addAction(self.Delete_selectedMenuButton)
         self.menuAdd_new.addAction(self.VideoQueryMenuButton)
+        self.menuAdd_new.addSeparator()
         self.menuAdd_new.addAction(self.MusicQueryMenuButton)
+        self.menuAdd_new.addSeparator()
+        self.menuAdd_new.addAction(self.actionAdvanced_Random)
 
         self.retranslateUi(MainAppWindow)
 
@@ -202,6 +208,7 @@ class Ui_MainAppWindow(object):
         self.Delete_selectedMenuButton.setShortcut(QCoreApplication.translate("MainAppWindow", u"Ctrl+Del", None))
 #endif // QT_CONFIG(shortcut)
         self.NeonThemeAction.setText(QCoreApplication.translate("MainAppWindow", u"Neon Theme", None))
+        self.actionAdvanced_Random.setText(QCoreApplication.translate("MainAppWindow", u"Advanced Randomizer", None))
         self.MainWindowLabel.setText(QCoreApplication.translate("MainAppWindow", u"Media DataBase", None))
         self.SearchByLabel.setText(QCoreApplication.translate("MainAppWindow", u"Search By:", None))
         self.SearchByComboBox.setItemText(0, QCoreApplication.translate("MainAppWindow", u"Name", None))
@@ -211,8 +218,8 @@ class Ui_MainAppWindow(object):
 
         self.EditSelectedButton.setText(QCoreApplication.translate("MainAppWindow", u"Edit Selected", None))
         self.AddNewButton.setText(QCoreApplication.translate("MainAppWindow", u"Add New", None))
-        self.InfoSelectedButton.setText(QCoreApplication.translate("MainAppWindow", u"More Info", None))
-        self.Show_RandomButton.setText(QCoreApplication.translate("MainAppWindow", u"Recommend me Randomly", None))
+        self.InfoSelectedButton.setText(QCoreApplication.translate("MainAppWindow", u"Info Selected", None))
+        self.Show_RandomButton.setText(QCoreApplication.translate("MainAppWindow", u"Show Random from Above", None))
         self.menuSettings.setTitle(QCoreApplication.translate("MainAppWindow", u"Settings", None))
         self.ThemeMenuButton.setTitle(QCoreApplication.translate("MainAppWindow", u"Theme", None))
         self.menuAdd_new.setTitle(QCoreApplication.translate("MainAppWindow", u"Media", None))
