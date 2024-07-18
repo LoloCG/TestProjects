@@ -1,0 +1,18 @@
+<RCC>
+  <qresource prefix="Icons">
+    <file>icons/banknotes-48.png</file>
+    <file>icons/blank-file-48.png</file>
+    <file>icons/combo-48.png</file>
+    <file>icons/csv-48.png</file>
+    <file>icons/delete-48.png</file>
+    <file>icons/euro-48.png</file>
+    <file>icons/excel-3-48.png</file>
+    <file>icons/home-7-48.png</file>
+    <file>icons/menu-4-48.png</file>
+    <file>icons/search-3-48.png</file>
+    <file>icons/settings-5-48.png</file>
+  </qresource>
+  <qresource prefix="MainIcon">
+    <file>MainIcon.jpg</file>
+  </qresource>
+</RCC>
