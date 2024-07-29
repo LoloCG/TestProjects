@@ -13,9 +13,9 @@ MANUAL_THRESHOLD = float('0.9') # This value was used for the test excel. Change
 kN_column = "Fuerza (kN)" # Make sure both columns are called like this
 mm_column = "Carrera (mm)"  
 
-inputData_dir = os.path.join(script_dir, 'Input_folder') 
+#inputData_dir = os.path.join(script_dir, 'Input_folder') 
     # Otherwise use this to select the folder:
-    # inputData_dir = r'C:\Users\Lolo\Desktop\Graph Patty\Semi-Raw' # Folder containing the excel files
+inputData_dir = r'C:\Users\Lolo\Desktop\Graph Patty\Semi-Raw' # Folder containing the excel files
 
 # ============================== GLOBAL VARIABLES ==============================
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -102,7 +102,7 @@ def main():
     print(f"filename: {output_filename}")
     
     output_path = os.path.join(script_dir, output_filename)  # Creates the full output path
-    
+    print(df_clean)
     if not NOT_CREATE_EXCEL:
         create_output_excel(output_path, df_clean)
 
