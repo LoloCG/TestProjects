@@ -1,7 +1,14 @@
 import os
 import numpy as np
 import sys
-from modules import DataCleaner, DataFrameTransformer, DataPlotter
+
+sys.path.append(r'C:\Users\Lolo\Desktop\Programming\GITRepo\PythonLearn-Resources\Data analysis\Pandas\Excel')
+    # MODULE_pandas_excel_functions.py
+sys.path.append(r'C:\Users\Lolo\Desktop\Programming\GITRepo\PythonLearn-Resources\Data analysis\Pandas')
+    # MODULE_pandas_basic.py
+    
+from MODULE_pandas_basic import DataCleaner, DataFrameTransformer, DataPlotter
+from MODULE_pandas_excel_functions import ExcelDataExtract
 
 def main(raw_dataframe):
     df_clean = DataCleaner(raw_dataframe)
