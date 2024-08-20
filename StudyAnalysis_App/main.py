@@ -1,64 +1,49 @@
 import sys, os
 import db_handler, hours_per_subject
-from MODULE_pandas_excel_functions import ExcelDataExtract
-
 
 def main_menu():
-    print("Reading database...")
-
-    chosen_file = '3º FarmNutr TDL_Log.csv'
-    target_file_folder_dir = os.path.dirname(os.path.abspath(__file__)) # the file direction is the same as the script
-
-    excelCSV_raw = ExcelDataExtract(file_folder_dir=target_file_folder_dir)
-    excelCSV_raw.load_csv_to_dataframe(chosen_file)
-
-    ''' 
-    db_table = {}
-    mainDB = DatabaseHandler()
-    mainDB.settup_db(db_name='mainDB.db')
-    mainDB.setup_db_table
-    '''
+    option_list = [
+        'Show hours per subject',
+        'Show weekly hours studied'
+    ]
 
     while True:
-        print("Main Menu")
-        print("1. Show hours per subject")
-        print("2. Show weekly hours studied")
+        # TODO: make it into a dynamic loop...
+        print("\nMain Menu")
+        print("1.", option_list[0])
+        print("2.", option_list[1])
         print("3. Exit")
 
         choice = input("Enter your choice: ")
         
-
         if choice == '1':
-            menu_opt1(excelCSV_raw.dataframe)
+            menu_opt1()
         elif choice == '2':
             menu_opt2()
         elif choice == '3':
             print("Exiting the program.")
-            break
+            return
         else:
-            print("Invalid choice, please try again.\n")
-        
-def menu_opt1(dataframe):
+            print("Invalid choice, please enter again.\n")
+
+def menu_opt1():
     print()
-    hours_per_subject.main(dataframe)
+    df = db_handler.retrieve_main_table() # TODO: make it so that dataframe does not need to be passed around so much, and instead is obtained directly from the database
+    hours_per_subject.main(df)
     print("Returning to main menu...\n")
 
 def menu_opt2():
     print()
-    print("Performing Task Two...")
-    # Your code for task two here
-    print("Task Two Completed!\n")
-
+    print("Option 2 not implemented yet...")
 
 if __name__ == "__main__":
-    print("\nRunning program\n")
-
-    sys.path.append(r'C:\Users\Lolo\Desktop\Programming\GITRepo\PythonLearn-Resources\Data analysis\Pandas\Excel')
-        # MODULE_pandas_excel_functions.py
+    print("\nRunning program")
+    
+    target_file_folder_dir = os.path.dirname(os.path.abspath(__file__)) 
+    chosen_file = '3º FarmNutr TDL_Log.csv'
+    db_handler.main(target_file_folder_dir, chosen_file)
 
     main_menu()
-
-
 
 def oldcode():
     # ============= Modules import ==========
