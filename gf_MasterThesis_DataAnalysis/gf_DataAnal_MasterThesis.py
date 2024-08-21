@@ -9,22 +9,45 @@ AUTO_DETECT_THRESHOLD = False
 INPUT_DATA_IN_SCRIPT_DIR = True
 
 # !!!!!!!!!!!!!
-MANUAL_THRESHOLD = float('0.9') # This value was used for the test excel. Change accordingly
 
-outputData_dir = r''
 # ============================== GLOBAL VARIABLES ==============================
+sys.path.append(r'C:\Users\Lolo\Desktop\Programming\GITRepo\PythonLearn-Resources\Data analysis\Matplotlib')    
+import MODULE_matplot_pandas
+sys.path.append(r'C:\Users\Lolo\Desktop\Programming\GITRepo\PythonLearn-Resources\Data analysis\Pandas')    
+from MODULE_pandas_basic import DataCleaner, DataFrameTransformer
+sys.path.append(r'C:\Users\Lolo\Desktop\Programming\GITRepo\PythonLearn-Resources\Data analysis\Pandas\Excel')
+from MODULE_pandas_excel_functions import ExcelDataExtract
 
 kN_column = "Fuerza (kN)" # Make sure both columns are called like this
 mm_column = "Carrera (mm)"  
+excel_load = ExcelDataExtract()
 
-def main():
+def main(reDoGraph):
+
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    #inputData_dir = os.path.join(script_dir, 'Input_folder') 
+    inputData_dir = r'C:\Users\Lolo\Desktop\Graph Patty\Python\Non-Clean' 
+    outputData_dir = r'C:\Users\Lolo\Desktop\Graph Patty\Python\Clean'
+    
     global MANUAL_THRESHOLD
-
-    excel_load = excel_mod.ExcelDataExtract()
-    excel_load.get_folder_excel_files(inputData_dir)
-    excel_load.select_excelFile_fromFolder()
+    MANUAL_THRESHOLD = float(input(f"Type the starting threshold for normalization of data: "))
+    #MANUAL_THRESHOLD = float('2') 
+    '''
+    print(f"kN column name = '{kN_column}', mm column name '{mm_column}'")
+    print(f"selected threshold = {MANUAL_THRESHOLD}")
+    print(f"Imput file direction: {inputData_dir}\nOutput file direction: {outputData_dir}\n")
+    '''
+    
+    if not reDoGraph: # False on ReDoGraph means you want to select the file, otherwise the file will be the same as last, which will be re-used
+        excel_load.get_folder_excel_files(inputData_dir)
+        excel_load.select_excelFile_fromFolder()
+        
     excel_load.select_excelSheets_fromFile()
     excel_load.load_excel_to_dataframe_dict()
+    
+    #print(f"DEBUG:\n{excel_load.dataframe}\n")
 
     hydraulicValues = HydraulicAnalysis(dataframe=excel_load.dataframe)
     hydraulicValues.get_max_kN_mm()
@@ -44,22 +67,20 @@ def main():
         output_filename = old_file + '.xlsx'
     
     print(f"filename: {output_filename}\n")
-    output_path = os.path.join(script_dir, output_filename)  # Creates the full output path
+    output_path = os.path.join(outputData_dir, output_filename)  # Creates the full output path
     
-    if not NOT_CREATE_EXCEL:
-        create_output_excel(output_path, new_dict_df)
+    create_output_excel(output_path, new_dict_df)
 
-        print()
-        print("new excel created")
+    print()
+    print("new excel created")
 
-        print("opening excel...")
-        os.startfile(output_path) # open the excel file
-        print("...")
+    print("opening excel...")
+    os.startfile(output_path) 
+    print("...")
 
-        eliminate_input_file(output_path)
+    eliminate_input_file(output_path)
 
-    else:
-        print("debug mode, not creating excel")
+    return excel_load
 
 def create_df_avg(df_clean):
     # Combine all unique X values from all series
@@ -97,7 +118,7 @@ class HydraulicAnalysis:
         self.dataframe = dataframe
         
         if isinstance(self.dataframe, dict):
-            print("Dataframe is dictionary type\n")
+            #print("DEBUG: Dataframe is dictionary type\n")
             # For each sheet name, create an empty dictionary in self.results
             # This will store what is of importance by sheet, then by key (e.g.: max_kN), then the values
             self.hydrvalues = {sheet_name: {} for sheet_name in dataframe.keys()}
@@ -181,7 +202,7 @@ class HydraulicAnalysis:
                 return first_idx_above_threshold
 
             else:
-                print(f"Starting kN value of {sheet} is at above the threshold.")
+                print(f"Starting kN value of {sheet} ({start_kN_value}) is at above the threshold ({MANUAL_THRESHOLD}).")
                 return 0
         
         else:
@@ -216,7 +237,7 @@ class HydraulicAnalysis:
                 
                 if start > 0:
                     first_mm_above_threshold = df.at[start,mm_column] # Using labels 
-                    print(f"\nDEBUG: mm of start = {first_mm_above_threshold}")
+                    #print(f"\nDEBUG: mm of start = {first_mm_above_threshold}")
                     extracted_data[mm_column] = extracted_data[mm_column] - first_mm_above_threshold
                 
                 new_dict_df[sheet] = extracted_data
@@ -296,26 +317,20 @@ def create_output_excel(output_path, df_clean):
         worksheet.insert_chart(0, 0, chart)
 
 def eliminate_input_file(output_path): # Asks user whether to eliminate file from output_path
+    answer = False
     if os.path.exists(output_path):
-        user_input = input(f"Eliminate excel? (Y/N): ").strip().upper()
-        if user_input == 'Y':
-            os.remove(output_path)
-            print(f"File has been removed.")
-        else:
-            print(f"File was not removed.")
+        while not answer:
+            user_input = input(f"Eliminate excel? (Y/N): ").strip().upper()
+            if user_input == 'Y':
+                os.remove(output_path)
+                print(f"File has been removed.")
+                answer = True
+            elif user_input == 'N':
+                print(f"File was not removed.")
+                answer = True
+            else:
+                print(f"Please type Y/N.")
+                
     else:
         print(f"File does not exist.")
 
-
-# Import excel tools module as 'excel_mod'
-sys.path.append(r'C:\Users\Lolo\Desktop\Programming\GITRepo\PythonLearn-Resources\Data analysis\Pandas\Excel')
-excel_mod = __import__('MODULE_excel_functions')
-
-script_dir = os.path.dirname(os.path.abspath(__file__))
-
-if INPUT_DATA_IN_SCRIPT_DIR == True:
-    inputData_dir = os.path.join(script_dir, 'Input_folder') 
-else:
-    inputData_dir = r'C:\Users\Lolo\Desktop\Graph Patty\Semi-Raw' # Folder that would contain the excel files
-
-main()
