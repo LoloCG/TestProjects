@@ -1,5 +1,6 @@
-# Object interaction
-![Previous excel routine structure](Notes and structure\Excel_MicrocycleAndSession.png)
+# Example interface to  achieve:
+
+![Previous excel routine structure](concept_items\Excel_MicrocycleAndSession.png)
 
 
 # ejemplo entreno para facil
